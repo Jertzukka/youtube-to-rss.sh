@@ -6,6 +6,10 @@ channelid="UCaBX7ogjBF_oeYo20zO_Y9h"
 urls="$HOME/.newsboat/urls"
 youtuberss="https://www.youtube.com/feeds/videos.xml?channel_id="
 
+if [ ! -f $urls ]; then
+    echo "$urls is not found. Please create the file first or give the correct location."
+    exit
+fi
 
 if [[ $channelid = "UCaBX7ogjBF_oeYo20zO_Y9h" ]]; then
     echo "Change the channelid on the script to yours to retrieve your subscriptions."
@@ -46,6 +50,14 @@ while true; do
         curl -s "https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId=$channelid&maxResults=50&key=$apikey" \
         --header "Accept: application/json" --compressed | jq . > lastreq.json
     fi
+
+    # Catch errors
+    if [[ $(jq .error.code lastreq.json) != "null" ]]; then
+        echo "Code: $(jq .error.code lastreq.json), Error: $(jq .error.errors[].message lastreq.json)"
+        cleanup
+        exit
+    fi
+
     retrieved=$(jq '.items | length' lastreq.json)
     nextPageToken=$(jq -r .nextPageToken lastreq.json)
     total=$(( $total + $retrieved ))
