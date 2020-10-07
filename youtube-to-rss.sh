@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Config
 apikey="AIzaSyCdJeEu_WsIn-ckh2QGX5hnJlPSivRlA0Q"
 channelid="UCaBX7ogjBF_oeYo20zO_Y9h"
