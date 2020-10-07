@@ -37,18 +37,17 @@ trap '
 # Request all subscriptions from Youtube API and write channelids and titles into files.
 while true; do
     # Change request based on whether we have a newPageToken yet
-    if [ $nextPageToken != "null" ]; then
+    if [ ! -z "$nextPageToken" ]; then
         curl -s "https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId=$channelid&maxResults=50&pageToken=$nextPageToken&key=$apikey" \
         --header "Accept: application/json" --compressed | jq . > lastreq.json
     else
-        echo "Running first time."
         curl -s "https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&channelId=$channelid&maxResults=50&key=$apikey" \
         --header "Accept: application/json" --compressed | jq . > lastreq.json
     fi
     retrieved=$(jq '.items | length' lastreq.json)
     nextPageToken=$(jq -r .nextPageToken lastreq.json)
     total=$(( $total + $retrieved ))
-    echo "Retrieved $total out of $(jq .pageInfo.totalResults lastreq.json). Next page: $nextPageToken"
+    echo "Retrieved $total out of $(jq .pageInfo.totalResults lastreq.json)."
     jq -r .items[].snippet.title lastreq.json >> titles.json
     jq -r .items[].snippet.resourceId.channelId lastreq.json >> channelids.json
     # Break out if next page doesn't exist
@@ -60,10 +59,9 @@ done
 
 
 # Add new channels which aren't on urls yet.
-printf "Add tags to imported Youtube channels? (or leave  empty)\n"
+printf "\nAdd tags to imported Youtube channels? (or leave  empty)   "
 read tag
 linecount=$(wc -l <channelids.json)
-echo "Set a tag."
 for i in $( seq 1 $linecount ); do
     channelid=$(sed "${i}q;d" channelids.json)
     title=$(sed "${i}q;d" titles.json)
@@ -80,7 +78,7 @@ echo -e "\nAll new subscriptions added!"
 
 
 # Delete channels that have been added with this tool, but you no longer subscribe to.
-printf "\nDelete channels which have been added with this tool, but you no longer subscribe to? (y/n)\n"
+printf "\nDelete channels which have been added with this tool, but you no longer subscribe to? (y/n)   "
 read delete
 linecount=$(wc -l <$urls)
 if [[ $delete = "y" ]] || [[ $delete = "Y" ]]; then
