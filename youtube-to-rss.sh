@@ -1,8 +1,14 @@
 # Config
 apikey="AIzaSyCdJeEu_WsIn-ckh2QGX5hnJlPSivRlA0Q"
-channelid="UCaBX7ogjBF_oeYo20zO_Y9g"
+channelid="UCaBX7ogjBF_oeYo20zO_Y9h"
 urls="$HOME/.newsboat/urls"
 youtuberss="https://www.youtube.com/feeds/videos.xml?channel_id="
+
+
+if [[ $channelid = "UCaBX7ogjBF_oeYo20zO_Y9h" ]]; then
+    echo "Change the channelid on the script to yours to retrieve your subscriptions."
+    exit
+fi
 
 
 # Halt if files already exist with these names.
