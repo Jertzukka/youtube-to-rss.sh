@@ -19,9 +19,10 @@ export them from the Youtube's website.
 
 Usage
 -----
-+ Get your Channel ID by navigating to Settings and Advanced Settings. Open the 
-script in an editor, and replace the existing 'channelid=' with your own, and 
-save the file.
++ Download the script for example by running `git clone https://github.com/Jertzukka/youtube-to-rss.sh`
++ Get your Channel ID by navigating Youtube to Settings and Advanced Settings. 
+Open the script in an editor, and replace the existing 'channelid=' with your own, 
+and save the file.
 + If necessary, make the file executable by running `chmod +x ./youtube-to-rss.sh`
 + Run the script with `./youtube-to-rss.sh`
 
