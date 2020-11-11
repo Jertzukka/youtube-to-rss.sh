@@ -16,11 +16,11 @@ fi
 
 
 # First time setup to set channel ID.
-if [ -z $channelid ]; then
+if [ -z "$channelid" ]; then
     echo "First time setup. The default API key will not work, you need to edit it with a working one. Also edit your channel ID into the script or add it now:"
     read -r newid
     editrow=$(grep -n -m 1 "channelid=''" "$0" | cut -d : -f 1)
-    sed -i "${editrow}s/channelid=''/channelid='$newid'/" $0
+    sed -i "${editrow}s/channelid=''/channelid='$newid'/" "$0"
     channelid=$newid
 fi
 
