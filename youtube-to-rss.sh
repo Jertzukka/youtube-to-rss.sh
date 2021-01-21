@@ -9,7 +9,7 @@ youtuberss="https://www.youtube.com/feeds/videos.xml?channel_id="
 
 
 # Usage help
-help() { echo -e "Usage: $0 [-t \"<tag name>\"] [-d <y/n>]\n\n\Options:\n   -t TAG\n     Optional tag to add for the imported feeds.\n\n   -d y/n\n     Delete channels you're no longer subscribed to." 1>&2; exit 1; }
+help() { printf "Usage: %s [-t \"<tag name>\"] [-d {y|n}]\n\nOptions:\n   -t TAG\n     Optional tag to add for the imported feeds.\n\n   -d y/n\n     Delete channels you're no longer subscribed to.\n" "$0" 1>&2; exit 1; }
 
 
 # Parse arguments
@@ -31,8 +31,8 @@ done
 # Check if urls file is missing..
 if [ ! -f "$urls" ]; then
     echo "$urls is not found. Creating blank file at $urls."
-    mkdir -pv $(dirname $urls)
-    touch $urls
+    mkdir -pv "$(dirname "$urls")"
+    touch "$urls"
 fi
 
 
