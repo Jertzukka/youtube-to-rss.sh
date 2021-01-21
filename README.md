@@ -18,6 +18,10 @@ it allows you to easily add and delete subscriptions without having to manually
 export them from the Youtube's website. Made into POSIX compliant from the
 previous bash version of the script.
 
+**Changelog 21.1.2021**
+Added option to pass options as arguments to allow it to be ran as a cronjob
+for example.
+
 Usage
 -----
 + Download the script for example by running `git clone https://github.com/Jertzukka/youtube-to-rss.sh`
@@ -28,6 +32,11 @@ enter it when the script is ran first time and it's asked.
 first I tried to provide mine for public use, but they're abused.
 + If necessary, make the file executable by running `chmod +x ./youtube-to-rss.sh`
 + Run the script with `./youtube-to-rss.sh`
+
+If you'd like to run this periodically without user input, you can pass options
+into the script as arguments:
+
+    ./youtube-to-rss.sh [-t <TAG>] [-d <y/n>]
 
 Dependencies
 ------------

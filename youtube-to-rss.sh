@@ -7,6 +7,27 @@ apikey='AIzaSyCdJeEu_WsIn-ckh2QGX5hnJlPSivRlA0Q'
 urls="$HOME/.newsboat/urls"
 youtuberss="https://www.youtube.com/feeds/videos.xml?channel_id="
 
+
+# Usage help
+help() { echo -e "Usage: $0 [-t \"<tag name>\"] [-d <y/n>]\n\n\Options:\n   -t TAG\n     Optional tag to add for the imported feeds.\n\n   -d y/n\n     Delete channels you're no longer subscribed to." 1>&2; exit 1; }
+
+
+# Parse arguments
+while getopts ":t:d:" opt; do
+    case "${opt}" in
+        t)
+            tag=${OPTARG}
+            ;;
+        d)
+            delete=${OPTARG}
+            ;;
+        *)
+            help
+            ;;
+    esac
+done
+
+
 # Check if urls file is missing..
 if [ ! -f "$urls" ]; then
     echo "$urls is not found. Creating blank file at $urls."
@@ -81,8 +102,10 @@ done
 
 
 # Add new channels which aren't on urls yet.
-printf "\nAdd tags to imported Youtube channels? (or leave  empty)   "
-read -r tag
+if [ -z ${tag+x} ]; then
+    printf "\nAdd tags to imported Youtube channels? (or leave  empty)   "
+    read -r tag
+fi
 linecount=$(wc -l < channelids.json)
 updated=false
 for i in $( seq 1 "$linecount" ); do
@@ -106,8 +129,10 @@ fi
 
 
 # Delete channels that have been added with this tool, but you no longer subscribe to.
-printf "\nDelete channels which have been added with this tool, but you no longer subscribe to? (y/n)   "
-read -r delete
+if [ -z ${delete+x} ]; then
+    printf "\nDelete channels which have been added with this tool, but you no longer subscribe to? (y/n)   "
+    read -r delete
+fi
 linecount=$(wc -l < "$urls")
 updated=false
 if [ "$delete" = "y" ] || [ "$delete" = "Y" ]; then
