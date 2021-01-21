@@ -7,11 +7,11 @@ apikey='AIzaSyCdJeEu_WsIn-ckh2QGX5hnJlPSivRlA0Q'
 urls="$HOME/.newsboat/urls"
 youtuberss="https://www.youtube.com/feeds/videos.xml?channel_id="
 
-
 # Check if urls file is missing..
 if [ ! -f "$urls" ]; then
-    echo "$urls is not found. Please create the file first or give the correct location."
-    exit
+    echo "$urls is not found. Creating blank file at $urls."
+    mkdir -pv $(dirname $urls)
+    touch $urls
 fi
 
 
